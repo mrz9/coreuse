@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>useFileChunk Demo</h1>
+    <p>time:<time id="time">0</time></p>
+    <input type="file" id="file">
+    <script type="module">
+        import { useFileChunk } from './index.ts'
+        let itv;
+        let time = 0;
+        document.getElementById('file').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+
+            console.time()
+            itv = setInterval(() => {
+                time++;
+                document.getElementById('time').innerText = time;
+            }, 1000)
+             const info =  chunks = await useFileChunk(file, {md5: true})
+            clearInterval(itv)
+            console.log(info)
+            console.timeEnd()
+        })
+    </script>
+</body>
+</html>
